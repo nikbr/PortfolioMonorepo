@@ -1,0 +1,84 @@
+{
+  "nav": {
+    "about": "About",
+    "services": "Services",
+    "projects": "Projects",
+    "contact": "Contact"
+  },
+  "hero": {
+    "badge": "Available for Freelance And Private English Lessons",
+    "title": "Full-Stack Developer",
+    "description": "Offering innovative web solutions alongside personalized English instruction tailored to individual needs.",
+    "getInTouch": "Get In Touch",
+    "viewProjects": "View Projects"
+  },
+  "about": {
+    "name": "Nikita Bryliov",
+    "title": "About Me",
+    "paragraph1": "I am a full-stack software developer with over 6 years of professional experience, fluent in English and a native Russian speaker. My career spans a variety of roles—from building intelligent CV parsing systems and secure OAuth-based authentication platforms, to developing scalable backend services and interactive frontends in technologies like React, Flask, Docker, Java, and MySQL. I hold a Bachelor's degree in Mathematics and Computer Science from the University of Waterloo and have worked with international companies including SAP, TextNow, Trustwave, and startups across Canada and Russia. I'm passionate about delivering high-quality, efficient solutions and enjoy tackling complex challenges in both frontend and backend environments.",
+    "paragraph2": "Outside of work, I enjoy playing guitar, learning new languages, and building personal projects in Web3 and game development using Godot. I am currently based in Moscow and actively seeking full-time opportunities, but I also offer private English lessons and speaking practice for individuals looking to improve their language skills with a fluent communicator."
+  },
+  "services": {
+    "title": "Services",
+    "webDev": {
+      "title": "Web Development",
+      "description": "Full-stack development services for modern web applications",
+      "item1": "React & Next.js Applications",
+      "item2": "Node.js, FastAPI, Flask, .NET Core Backend Development",
+      "item3": "MySQL, PostgreSQL Database Design & Integration",
+      "item4": "API Development & Integration"
+    },
+    "english": {
+      "title": "English Instruction",
+      "description": "Personalized English classes and conversation sessions",
+      "item1": "Private English Lessons",
+      "item2": "Conversation Practice Sessions",
+      "item3": "Business English Training",
+      "item4": "Pronunciation Coaching",
+      "item5": "Grammar & Writing Support",
+      "item6": "Exam Preparation"
+    }
+  },
+  "projects": {
+    "title": "Featured Projects",
+    "ecommerce": {
+      "title": "Ethereum Voting App",
+      "description": "An React App that demonstrates recording votes on an Ethereum blockchain built on Web3 Smart Contract and Truffle."
+    },
+    "language": {
+      "title": "Cat Facts Generator",
+      "description": "Demonstrating ES6 features using the Cat Facts API."
+    },
+    "portfolio": {
+      "title": "User Dashboard",
+      "description": "Demonstrating Typescript features using the JSON Placeholder API."
+    }
+  },
+  "contact": {
+    "title": "Get In Touch",
+    "description": "Ready to start your next project or improve your English? Let's discuss how I can help you achieve your goals.",
+    "name": "Name",
+    "namePlaceholder": "Your full name",
+    "email": "Email",
+    "emailPlaceholder": "your.email@example.com",
+    "subject": "Subject",
+    "subjectPlaceholder": "What would you like to discuss?",
+    "message": "Message",
+    "messagePlaceholder": "Tell me about your project or learning goals...",
+    "send": "Send Message",
+    "nameRequired": "A name is required.",
+    "emailRequired": "An email is required.",
+    "subjectRequired": "A subject is required.",
+    "messageRequired": "Please leave a message at least 10 characters long."
+
+  },
+  "footer": {
+    "rights": "© 2025 Nikita Bryliov. All rights reserved."
+  },
+  "skills": {
+    "speaking": "Speaking",
+    "writing": "Writing",
+    "grammar": "Grammar",
+    "business": "Translation"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "typescript-dashboard-demo",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "serve dist",
+    "dev": "npm run start"
+  },
+  "devDependencies": {
+    "serve": "^14.0.1",
+    "typescript": "^5.8.3"
+  }
+}

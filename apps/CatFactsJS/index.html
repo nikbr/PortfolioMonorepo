@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ES6 Cat Facts Struct Demo</title>
+  <style>
+    body { 
+        font-family: Arial, sans-serif; 
+        background: #f9f9f9; 
+        padding: 32px; 
+        color: #222;
+    }
+    h1 { 
+        text-align: center; 
+        margin-bottom: 20px; 
+    }
+    button { 
+        background: #4042c7; 
+        color: white; 
+        font-size: 18px; 
+        border: none; 
+        padding: 12px 28px;
+        border-radius: 8px; 
+        cursor: pointer; 
+        margin-bottom: 20px; 
+        display: block; 
+        margin-left:auto; 
+        margin-right:auto;
+    }
+    #facts { 
+        max-width: 600px; 
+        margin: 0 auto; 
+        margin-top: 16px; 
+        padding: 0; 
+        list-style: none; 
+    }
+    .fact { 
+        background: white; 
+        border-radius: 8px; 
+        box-shadow: 0 3px 12px #0002; 
+        padding: 20px; 
+        margin-bottom: 18px;
+        position: relative; 
+        opacity: 0; 
+        transform: translateY(40px); 
+        transition: opacity .6s, transform .6s; 
+    }
+    .fact.show { 
+        opacity: 1; 
+        transform: none; 
+    }
+    .error { 
+        color: #d20000; 
+        background: #fff8f8; 
+        padding: 8px 12px; 
+        border-radius: 6px; 
+        text-align: center; 
+        margin-bottom: 12px;
+        max-width: 600px; 
+        margin-left: auto; 
+        margin-right: auto;
+    }
+    #factchain { 
+        max-width: 700px; 
+        margin: 35px auto 0 auto; 
+        padding: 0; 
+    }
+    #factchain li { 
+        background: #fffbe5; 
+        border-radius: 7px; 
+        margin-bottom: 8px; 
+        padding: 12px 17px; 
+    }
+  </style>
+</head>
+<body>
+  <h1>ES6 Generator & Async/Callback Cat Facts</h1>
+  <div style="max-width:700px; margin:0 auto 20px auto; display:flex; align-items:center; gap:1em; font-size:1.1em;">
+  <label for="factSlider"><strong>Number of facts:</strong></label>
+  <input type="range" min="1" max="15" value="5" id="factSlider">
+  <span id="factSliderValue">5</span>
+</div>
+  <button id="loadBtn">Fetch Cat Facts</button>
+  <button id="chainFactsBtn">Cat Fact Generator Chain!</button>
+  <ol id="factchain"></ol>
+  <div id="output"></div>
+  <ol id="facts"></ol>
+<script type="module">
+    //Cat Fact Struct Factory
+let latestToken = 0; //async aborter
+function createCatFactStruct(fact, length){
+    return {
+        fact: fact, 
+        length: length, 
+        prettyPrint() {
+            let prettyFact = this.fact.padEnd(80, '-');
+            if(prettyFact.toLowerCase().includes("cat")){
+                prettyFact = prettyFact.replace(/cat/ig,str => `[🐱${str.toUpperCase()}🐱]`);
+            }
+            return `"${prettyFact}"\n   (Length: ${this.length})`;
+        }
+    };
+}
+// Fetch Cat Facts using Promise then and catch
+function fetchAllCatFacts(){
+    return fetch("https://catfact.ninja/facts?limit=332")
+        .then(response => {
+            if(!response.ok) throw new Error("failed to fetch cat facts");
+            return response.json();
+        })
+        .then(json=>json.data)
+        .catch(err => {
+            showError("Fetch error: " + err.message);
+            return [];
+        });
+}
+
+async function catFactArray(){
+    let data = await fetchAllCatFacts();
+    let factsNum = document.getElementById('factSlider').value;
+    let indexes = [];
+    let result = [];
+    for(let i=0;i<factsNum;i++){
+        let randomIndex = getRandomIntInclusive(1,332);
+        while(indexes.includes(randomIndex)){
+            randomIndex++;
+        }
+        indexes = [...indexes, randomIndex];
+        result = [...result, data[randomIndex]];
+    }
+    return result;
+}
+
+function getRandomIntInclusive(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+// Generator yields objects from the factory
+function* catFactGenerator(facts){
+    for (const fact of facts) {
+        yield createCatFactStruct(fact.fact, fact.length);
+    }
+}
+//classic callback
+function processWithCallback(catFactObj, cb){
+    setTimeout(() => {
+        if(Math.random()<0.12){
+            cb("Random processing error!", null); //demos callback error
+        }else{
+            if(/kitten/i.test(catFactObj.fact)){
+                catFactObj.fact += " 😺";
+            }
+            cb(null, catFactObj);
+        }
+    }, 200);
+}
+//async await
+async function processCatFacts(){
+    const myToken = ++latestToken;
+    clearFacts();
+    showError("");
+    const factsArray = await catFactArray();
+    if (myToken !== latestToken) return;
+    if(!factsArray.length) return;
+
+    const gen = catFactGenerator(factsArray);
+    let idx = 0;
+    for(const catFactObj of gen) {
+        if (myToken !== latestToken || myToken !== latestToken) return;
+        await new Promise(resolve => {
+            processWithCallback(catFactObj, (err, processed) => {
+                if (myToken !== latestToken) return;
+                if(err){
+                    showError("Error: " + err);
+                    addFact(null, true);
+                } else { 
+                    addFact(processed.prettyPrint(), false, idx++);
+                }
+                resolve();
+            });
+        });
+        if (myToken !== latestToken) return;
+        await new Promise(response => setTimeout(response, 350));
+    }
+}
+
+//Generator that recieves a cat facts, processes it, and is fed info about the last transformation
+function* chainedFactGenerator(facts){
+    let prevData = {appended: 0, lastLength:0};
+    let totalLength = 0;
+    for(const f in facts){
+        //Transform: append to the fact a string depending on the previous fact's length
+        let baseFact = facts[f].fact;
+        let newFact;
+        if(prevData.lastLength > 0){
+            newFact = `${baseFact} [PrevFactLength: ${prevData.lastLength}]`;
+        } else {
+            newFact = baseFact;
+        }
+        totalLength += newFact.length;
+        prevData = yield newFact;
+        if(typeof prevData !== "object") prevData = {appended: 0, lastLength:0};
+    }
+    return { totalLength, count: facts.length };
+}
+
+async function runFactChainDemo(){
+    const myToken = ++latestToken;
+    const list = document.getElementById('factchain');
+    list.innerHTML = "";
+    clearFacts();
+    showError("Fetching facts for chain demo...");
+    let factsArray = await catFactArray();
+    if(!factsArray.length || myToken !== latestToken) return;
+    showError("");
+    const gen = chainedFactGenerator(factsArray);
+    let step = 0;
+    let feedData = {appended: 0, lastLength: 0};
+    function nextStep(lastResult){
+        if (myToken !== latestToken) return;
+        let result;
+        if(step===0){
+            result = gen.next();
+        }else{
+            result=gen.next(feedData);
+        }
+        if(!result.done){
+            const fact = result.value;
+            const li = document.createElement("li");
+            li.innerHTML = `<strong>Fact ${step+1}:</strong> ${fact}`;
+            list.appendChild(li);
+            feedData = {
+                appended: (fact.match(/\[PrevFactLength:/) ? 1 : 0),
+                lastLength: fact.length
+            };
+            step++;
+            setTimeout(() => nextStep(result.value), 800);
+        } else {
+            const { totalLength, count } = result.value;
+            const li = document.createElement("li");
+            li.innerHTML = `<em>Chain finished.</em><br>
+                <strong>Total length of all processed cat facts: ${totalLength}</strong><br>
+                <strong>Count: ${count}</strong>`;
+            list.appendChild(li);
+        }
+    }
+    nextStep();
+}
+
+//DOM Helpers
+function addFact(text, isError = false, index = 0){
+    const list = document.getElementById("facts");
+    const li = document.createElement("li");
+    li.className = "fact";
+    if(isError){
+        li.innerHTML = "<strong>Processing Failed!</strong>";
+        li.style.background = "#fff2f2";
+        li.style.borderLeft = "5px solid #d22222";
+    }else{
+        li.textContent = "";
+        const lines = text.split('\n');
+        li.innerHTML = `<pre style="font-family: inherit; white-space: pre-wrap;">${lines[0]}</pre>
+    <div style="color: #555; font-size: 0.97em;">${lines[1]}</div>`;
+    }
+    list.appendChild(li);
+    //animate
+    setTimeout(()=>li.classList.add("show"), 30);
+}
+
+function clearFacts() {
+  document.getElementById("facts").innerHTML = "";
+  document.getElementById("factchain").innerHTML = "";
+}
+
+function showError(msg) { 
+    let errDiv = document.getElementById("errDiv");
+    if(!errDiv){
+        errDiv = document.createElement("div");
+        errDiv.className = "error";
+        errDiv.id = "errDiv";
+        document.getElementById("output").innerHTML="";
+        document.getElementById("output").appendChild(errDiv);
+    }
+    errDiv.style.display = msg ? "" : "none";
+    errDiv.textContent = msg;
+}
+
+//hook up buttons
+document.getElementById('factSliderValue').textContent = document.getElementById('factSlider').value;
+document.getElementById('loadBtn').addEventListener('click', processCatFacts);
+document.getElementById('chainFactsBtn').addEventListener('click', runFactChainDemo);
+document.getElementById('factSlider').addEventListener('input', (e) => {
+  document.getElementById('factSliderValue').textContent = e.target.value;
+});
+
+</script>
+</body>
+</html>

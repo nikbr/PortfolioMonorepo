@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ES2022",          // Emit real ES Modules (import/export)
+    "rootDir": "./src",       // where TS looks for source
+    "outDir": "./dist",       // where compiled JS goes
+    "moduleResolution": "node",
+    "strict": true,
+    "esModuleInterop": true,
+    "allowJs": false,
+    "lib": ["es2022", "DOM", "DOM.Iterable"],
+    "skipLibCheck": true,
+     "forceConsistentCasingInFileNames": true
+  },
+  "include": ["src/**/*"]
+}
