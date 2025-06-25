@@ -131,7 +131,7 @@ export default function Page() {
               <div className="relative">
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-500 rounded-2xl blur-2xl opacity-20 scale-110"></div>
                 <Image
-                  src="/images/profile.jpg"
+                  src="/images/profile.png"
                   alt="Professional headshot"
                   width={400}
                   height={500}
