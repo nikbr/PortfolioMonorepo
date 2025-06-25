@@ -263,12 +263,12 @@ export default function Page() {
                   {t("projects.ecommerce.title")}
                   <div className="flex gap-2">
                     <Button size="sm" variant="ghost" asChild>
-                      <a href="https://project1-demo.com" target="_blank" rel="noopener noreferrer">
+                      <a href="https://nikbr-eth-voting-dapp.vercel.app/" target="_blank" rel="noopener noreferrer">
                         <ExternalLink className="w-4 h-4" />
                       </a>
                     </Button>
                     <Button size="sm" variant="ghost" asChild>
-                      <a href="https://github.com/nikbr/EthVotingApp" target="_blank" rel="noopener noreferrer">
+                      <a href="https://github.com/nikbr/PortfolioMonorepo/tree/master/apps/EthVoting" target="_blank" rel="noopener noreferrer">
                         <Github className="w-4 h-4" />
                       </a>
                     </Button>
@@ -297,12 +297,12 @@ export default function Page() {
                   {t("projects.language.title")}
                   <div className="flex gap-2">
                     <Button size="sm" variant="ghost" asChild>
-                      <a href="https://project2-demo.com" target="_blank" rel="noopener noreferrer">
+                      <a href="https://nikbr-cat-facts.vercel.app/" target="_blank" rel="noopener noreferrer">
                         <ExternalLink className="w-4 h-4" />
                       </a>
                     </Button>
                     <Button size="sm" variant="ghost" asChild>
-                      <a href="https://github.com/nikbr/CatFactsJS" target="_blank" rel="noopener noreferrer">
+                      <a href="https://github.com/nikbr/PortfolioMonorepo/tree/master/apps/CatFactsJS" target="_blank" rel="noopener noreferrer">
                         <Github className="w-4 h-4" />
                       </a>
                     </Button>
@@ -330,12 +330,12 @@ export default function Page() {
                   {t("projects.portfolio.title")}
                   <div className="flex gap-2">
                     <Button size="sm" variant="ghost" asChild>
-                      <a href="https://project3-demo.com" target="_blank" rel="noopener noreferrer">
+                      <a href="https://nikbr-user-dashboard.vercel.app/" target="_blank" rel="noopener noreferrer">
                         <ExternalLink className="w-4 h-4" />
                       </a>
                     </Button>
                     <Button size="sm" variant="ghost" asChild>
-                      <a href="https://github.com/nikbr/UserDashboardTS" target="_blank" rel="noopener noreferrer">
+                      <a href="https://github.com/nikbr/PortfolioMonorepo/tree/master/apps/UserDashboardTS" target="_blank" rel="noopener noreferrer">
                         <Github className="w-4 h-4" />
                       </a>
                     </Button>
