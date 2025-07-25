@@ -41,6 +41,10 @@
   },
   "projects": {
     "title": "Избранные проекты",
+    "beefbot":{
+      "title": "Ground Beef Telegram Bot",
+      "description": "Телеграм-бот, использующий MCP-сервер и хранилище векторов Chroma с поддержкой RAG для генерации рецептов из говяжьего фарша и их красивого форматирования с помощью OpenAI. Размещён на Railway."
+    },
     "ecommerce": {
       "title": "Ethereum Voting App",
       "description": "React-приложение, демонстрирующее запись голосов в блокчейн Ethereum с использованием Web3 Smart Contract и Truffle."

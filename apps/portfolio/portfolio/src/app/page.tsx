@@ -3,42 +3,31 @@
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
-import { Github, ExternalLink, Mail, Code, MessageCircle, ChevronDown, Send } from "lucide-react"
+import { Github, ExternalLink, Mail, Code, MessageCircle, ChevronDown } from "lucide-react"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { LanguageToggle } from "@/components/language-toggle"
 import { useTranslation } from "react-i18next"
-import HCaptcha from '@hcaptcha/react-hcaptcha';
-import { useForm } from "react-hook-form";
-type ContactFields = {
-  name: string;
-  email: string;
-  subject: string;
-  message: string;
-  "h-captcha-response": string;
-};
+import { useEffect } from "react"
+
 export default function Page() {
   const { t } = useTranslation()
-  const {
-    setValue,
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<ContactFields>();
 
-  const onValid = (_data: ContactFields, e?: React.BaseSyntheticEvent) => {
-    (e?.target as HTMLFormElement).submit();   
-  };
-  const onHCaptchaChange = (token: string) => {
-    setValue("h-captcha-response", token);
-  };
+useEffect(() => {
+    const script = document.createElement('script');
+    script.src = 'https://forms.yandex.ru/_static/embed.js';
+    script.async = true;
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+
+  
   
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-slate-800">
-      {/* Navigation */}
       <nav className="fixed top-0 w-full bg-white/80 dark:bg-slate-900/80 backdrop-blur-md z-50 border-b border-slate-200 dark:border-slate-700">
         <div className="container mx-auto px-4 py-4">
           <div className="flex justify-between items-center">
@@ -255,6 +244,46 @@ export default function Page() {
             <Card className="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg overflow-hidden dark:bg-slate-800 dark:border-slate-700">
               <div className="aspect-video bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-900 dark:to-blue-800 relative overflow-hidden">
                 <div className="absolute inset-0 flex items-center justify-center">
+                  <Image
+                    src="/images/meatball.PNG"
+                    alt="Ground Beef Bot"
+                    className="w-12 h-12"
+                  />
+                </div>
+              </div>
+              <CardHeader>
+                <CardTitle className="flex items-center justify-between dark:text-slate-100">
+                  {t("projects.beefbot.title")}
+                  <div className="flex gap-2">
+                    <Button size="sm" variant="ghost" asChild>
+                      <a href="https://t.me/groundbeef_bot" target="_blank" rel="noopener noreferrer">
+                        <ExternalLink className="w-4 h-4" />
+                      </a>
+                    </Button>
+                    <Button size="sm" variant="ghost" asChild>
+                      <a href="https://github.com/nikbr/GroundBeefTelegramBot" target="_blank" rel="noopener noreferrer">
+                        <Github className="w-4 h-4" />
+                      </a>
+                    </Button>
+                  </div>
+                </CardTitle>
+                <CardDescription className="dark:text-slate-300">{t("projects.beefbot.description")}</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="flex flex-wrap gap-2">
+                  <Badge variant="outline">OpenAI</Badge>
+                  <Badge variant="outline">FastMCP</Badge>
+                  <Badge variant="outline">Langchain</Badge>
+                  <Badge variant="outline">Chroma</Badge>
+                  <Badge variant="outline">aiogram</Badge>
+                  <Badge variant="outline">NumPy</Badge>
+                  <Badge variant="outline">Docker</Badge>
+                </div>
+              </CardContent>
+            </Card>
+            <Card className="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg overflow-hidden dark:bg-slate-800 dark:border-slate-700">
+              <div className="aspect-video bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-900 dark:to-blue-800 relative overflow-hidden">
+                <div className="absolute inset-0 flex items-center justify-center">
                   <Code className="w-12 h-12 text-blue-600 dark:text-blue-400" />
                 </div>
               </div>
@@ -366,95 +395,20 @@ export default function Page() {
           </div>
 
           <Card className="shadow-xl border-0 dark:bg-slate-800 dark:border-slate-700">
-            <CardContent className="p-8">
-              <form  onSubmit={handleSubmit(onValid)} action="https://api.web3forms.com/submit" method="POST" className="space-y-6">
-                <input type="hidden" name="access_key" value="7fac1735-b4e7-466c-b34d-afc03a51cf5d"/>
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <Label htmlFor="name" className="dark:text-slate-200">
-                      {t("contact.name")}
-                    </Label>
-                    <Input
-                      id="name"
-                      placeholder={t("contact.namePlaceholder")}
-                      className="dark:bg-slate-700 dark:border-slate-600 dark:text-slate-100"
-                       {...register('name', { required: t('contact.nameRequired') })}
-                    />
-                    {errors.name && (
-                      <p className="text-xs text-red-500">{errors.name.message}</p>
-                    )}
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="email" className="dark:text-slate-200">
-                      {t("contact.email")}
-                    </Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      placeholder={t("contact.emailPlaceholder")}
-                      className="dark:bg-slate-700 dark:border-slate-600 dark:text-slate-100"
-                      {...register('email', {
-                        required: t('contact.emailRequired'),
-                        pattern: {
-                          value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                          message: t('contact.emailInvalid'),
-                        },
-                      })}
-                    />
-                    {errors.email && (
-                      <p className="text-xs text-red-500">{errors.email.message}</p>
-                    )}
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="subject" className="dark:text-slate-200">
-                    {t("contact.subject")}
-                  </Label>
-                  <Input
-                    id="subject"
-                    placeholder={t("contact.subjectPlaceholder")}
-                    className="dark:bg-slate-700 dark:border-slate-600 dark:text-slate-100"
-                    {...register('subject', { required: t('contact.subjectRequired') })}
-                  />
-                  {errors.subject && (
-                    <p className="text-xs text-red-500">{errors.subject.message}</p>
-                  )}
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="message" className="dark:text-slate-200">
-                    {t("contact.message")}
-                  </Label>
-                  <Textarea
-                    id="message"
-                    placeholder={t("contact.messagePlaceholder")}
-                    rows={6}
-                    className="dark:bg-slate-700 dark:border-slate-600 dark:text-slate-100"
-                    {...register('message', {
-                      required: t('contact.messageRequired'),
-                      minLength: { value: 10, message: t('contact.messageMin') },
-                    })}
-                  />
-                  {errors.message && (
-                    <p className="text-xs text-red-500">{errors.message.message}</p>
-                  )}
-                </div>
-                <HCaptcha
-                  sitekey="50b2fe65-b00b-4b9e-ad62-3ba471098be2"
-                  reCaptchaCompat={false}
-                  onVerify={onHCaptchaChange} 
-                /> 
-                {errors['h-captcha-response'] && (
-                  <p className="text-xs text-red-500">
-                    {errors['h-captcha-response']?.message}
-                  </p>
-                )}
-                <Button type="submit" size="lg" className="w-full">
-                  <Send className="w-4 h-4 mr-2" />
-                  {t("contact.send")}
-                </Button>
-              </form>
+            <CardContent className="p-8 relative" style={{ height: '600px' }}>
+              <iframe
+                title={t("contact.title")}
+                src="https://forms.yandex.ru/cloud/685ccf69e010db35cd280f17?iframe=1"
+                name="ya-form-685ccf69e010db35cd280f17"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  border: 'none',
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                }}
+              ></iframe>
             </CardContent>
           </Card>
         </div>

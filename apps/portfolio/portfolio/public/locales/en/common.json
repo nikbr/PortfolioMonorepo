@@ -41,6 +41,10 @@
   },
   "projects": {
     "title": "Featured Projects",
+    "beefbot":{
+      "title": "Ground Beef Telegram Bot",
+      "description": "A Telegram bot that uses an MCP server and a Chroma vector store powered RAG to generate ground beef recipes and format them nicely with the help of OpenAI. Hosted on Railway."
+    },
     "ecommerce": {
       "title": "Ethereum Voting App",
       "description": "An React App that demonstrates recording votes on an Ethereum blockchain built on Web3 Smart Contract and Truffle."

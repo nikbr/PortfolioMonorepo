@@ -22,7 +22,6 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
-        <script src="https://web3forms.com/client/script.js" async defer></script>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <I18nProvider>{children}</I18nProvider>
         </ThemeProvider>
